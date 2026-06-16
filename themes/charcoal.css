@@ -1,0 +1,14 @@
+/* DreamIT BIZ palette — 차콜 · 코랄 (charcoal) */
+:root{
+  --primary:    #2A3540;
+  --primary-2:  #1E2730;
+  --primary-ink:#2A3540;
+  --on-primary: #FFFFFF;
+  --secondary:  #E0694B;
+  --secondary-2:#EC8369;
+  --secondary-ink:#C2462A;
+  --on-secondary:#FFFFFF;
+  --hero-bg:    #2A3540;
+  --hero-ink:   #FFFFFF;
+  --hero-accent:#E0694B;
+}

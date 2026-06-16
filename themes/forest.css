@@ -1,0 +1,14 @@
+/* DreamIT BIZ palette — 포레스트 · 샌드 (forest) */
+:root{
+  --primary:    #1F4E3D;
+  --primary-2:  #163B2D;
+  --primary-ink:#1F4E3D;
+  --on-primary: #FFFFFF;
+  --secondary:  #E0B252;
+  --secondary-2:#EFC877;
+  --secondary-ink:#8A6A1F;
+  --on-secondary:#FFFFFF;
+  --hero-bg:    #1F4E3D;
+  --hero-ink:   #FFFFFF;
+  --hero-accent:#E0B252;
+}

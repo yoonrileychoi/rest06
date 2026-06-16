@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko" data-motion="on">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>커뮤니티 — 함께 배우고 성장하는 공간 | 드림아이티비즈</title>
+<meta name="description" content="질문하고, 프로젝트를 공유하고, 스터디를 만드는 곳. 수강생과 졸업생이 함께하는 드림아이티비즈 커뮤니티." />
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="pages.css" />
+<link id="paletteCss" rel="stylesheet" href="themes/navygold.css" />
+<script>
+  (function () {
+    try {
+      if (localStorage.getItem("dreamit-mode") === "dark") document.documentElement.classList.add("dark");
+      var p = localStorage.getItem("dreamit-palette");
+      if (p) { var l = document.getElementById("paletteCss"); if (l) l.setAttribute("href", "themes/" + p + ".css"); }
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<div id="site-header"></div>
+
+<section class="phero" data-screen-label="Community Hero">
+  <div class="phero__bgword">TOGETHER</div>
+  <div class="wrap phero__inner" data-stagger="100">
+    <div class="crumb" data-reveal><a href="DreamIT BIZ.html">HOME</a><span class="sep">/</span><span>커뮤니티</span></div>
+    <h1 data-reveal>COMMUNITY<span class="kr">혼자보다 빠르게, 함께 더 멀리</span></h1>
+    <p class="phero__sub" data-reveal>질문하고, 프로젝트를 공유하고, 스터디를 만드는 곳. 5만 명의 수강생·졸업생이 매일 서로의 성장을 돕습니다.</p>
+    <div class="phero__meta" data-stagger="90">
+      <div class="m" data-reveal><b><span data-count="52000">0</span></b><span>활동 멤버</span></div>
+      <div class="m" data-reveal><b><span data-count="140000">0</span></b><span>누적 Q&amp;A</span></div>
+      <div class="m" data-reveal><b><span data-count="320">0</span><span class="u">+</span></b><span>운영 스터디</span></div>
+      <div class="m" data-reveal><b><span data-count="98">0</span><span class="u">%</span></b><span>질문 답변율</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="tabbar">
+  <div class="wrap"><div class="tabbar__row">
+    <a class="tab on" data-target="notice" href="#notice">공지사항</a>
+    <a class="tab" data-target="qna" href="#qna">Q&amp;A</a>
+    <a class="tab" data-target="study" href="#study">스터디</a>
+    <a class="tab" data-target="showcase" href="#showcase">프로젝트 자랑</a>
+  </div></div>
+</div>
+
+<!-- ===== NOTICE ===== -->
+<section class="section" id="notice" data-screen-label="Notice">
+  <div class="wrap">
+    <div class="shead" data-reveal>
+      <div>
+        <span class="shead__eyebrow mono-label">Notice</span>
+        <h2><span class="kr">공지사항</span>WHAT'S NEW</h2>
+      </div>
+      <a href="#" class="btn btn--ghost btn--sm">전체 보기 <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="posts" data-stagger="60">
+      <a class="post" href="#" data-reveal><span class="post__cat">이벤트</span><div><div class="post__t">여름 수강신청 페스타 — 전 강좌 최대 48% 할인<span class="badge-new">NEW</span></div><div class="post__meta"><span>운영팀</span><span>2026.06.10</span></div></div><div class="post__stat">조회 4,210</div></a>
+      <a class="post" href="#" data-reveal><span class="post__cat">업데이트</span><div><div class="post__t">생성형 AI 실무 트랙 신규 개설 안내</div><div class="post__meta"><span>운영팀</span><span>2026.06.04</span></div></div><div class="post__stat">조회 2,880</div></a>
+      <a class="post" href="#" data-reveal><span class="post__cat">점검</span><div><div class="post__t">6월 19일(목) 새벽 학습 플랫폼 정기 점검 안내</div><div class="post__meta"><span>운영팀</span><span>2026.05.30</span></div></div><div class="post__stat">조회 1,540</div></a>
+      <a class="post" href="#" data-reveal><span class="post__cat">채용</span><div><div class="post__t">파트너사 채용 연계 — 6월 추천 공고 12건 오픈</div><div class="post__meta"><span>커리어팀</span><span>2026.05.27</span></div></div><div class="post__stat">조회 3,360</div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ===== QNA ===== -->
+<section class="section section--alt" id="qna" data-screen-label="QnA">
+  <div class="wrap">
+    <div class="shead" data-reveal>
+      <div>
+        <span class="shead__eyebrow mono-label">Q&amp;A</span>
+        <h2><span class="kr">묻고 답하기</span>ASK ANYTHING</h2>
+      </div>
+      <a href="#" class="btn btn--primary btn--sm">질문하기 <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+    <div class="qcards" data-stagger="90">
+      <article class="qcard" data-reveal><div class="qcard__top"><div class="qcard__av" style="background:#1C2C5A">정</div><div class="qcard__who"><div class="n">정민서</div><div class="r">풀스택 트랙</div></div></div><h4>useEffect 의존성 배열, 언제 비워두나요?</h4><p>리렌더링마다 실행되는 걸 막고 싶은데 빈 배열과 생략의 차이가 헷갈립니다.</p><div class="qcard__foot"><span class="pri">답변 8</span><span>좋아요 24</span><span>3시간 전</span></div></article>
+      <article class="qcard" data-reveal><div class="qcard__top"><div class="qcard__av" style="background:#C42E3C">한</div><div class="qcard__who"><div class="n">한지우</div><div class="r">정보처리기사</div></div></div><h4>실기 서술형, 키워드만 맞으면 부분점수 되나요?</h4><p>답안 작성 요령이 궁금합니다. 합격생 분들 경험 공유 부탁드려요!</p><div class="qcard__foot"><span class="pri">답변 12</span><span>좋아요 41</span><span>6시간 전</span></div></article>
+      <article class="qcard" data-reveal><div class="qcard__top"><div class="qcard__av" style="background:#155E63">박</div><div class="qcard__who"><div class="n">박도윤</div><div class="r">데이터·AI</div></div></div><h4>판다스 groupby 후 집계, 더 빠른 방법 있을까요?</h4><p>데이터가 커지니 느려지는데 벡터화 팁이 있으면 알려주세요.</p><div class="qcard__foot"><span class="pri">답변 5</span><span>좋아요 18</span><span>어제</span></div></article>
+    </div>
+  </div>
+</section>
+
+<!-- ===== STUDY ===== -->
+<section class="section" id="study" data-screen-label="Study">
+  <div class="wrap">
+    <div class="ihead" data-reveal>
+      <span class="eyebrow mono-label">Study Groups</span>
+      <h2>STUDY GROUPS<span class="kr">함께하면 끝까지 간다</span></h2>
+      <p>같은 목표를 가진 사람들과 스터디를 만들고, 서로의 진도를 끌어주세요.</p>
+    </div>
+    <div class="icards" data-stagger="90">
+      <div class="icard" data-reveal><div class="icard__no">모집중 · 4/6</div><h3>코딩테스트 새벽반</h3><p>매일 아침 7시, 알고리즘 2문제씩 함께 풉니다. 4주 시즌제.</p><a href="#" class="icard__tag">참여하기 →</a></div>
+      <div class="icard" data-reveal><div class="icard__no">모집중 · 8/10</div><h3>SQLD 4주 합격 스터디</h3><p>기출 풀이와 오답 정리를 함께. 합격까지 서로 챙겨줍니다.</p><a href="#" class="icard__tag">참여하기 →</a></div>
+      <div class="icard" data-reveal><div class="icard__no">모집중 · 3/6</div><h3>사이드 프로젝트 메이커스</h3><p>아이디어부터 배포까지, 6주 안에 하나의 서비스를 완성합니다.</p><a href="#" class="icard__tag">참여하기 →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SHOWCASE ===== -->
+<section class="section section--alt" id="showcase" data-screen-label="Showcase">
+  <div class="wrap">
+    <div class="ihead" data-reveal>
+      <span class="eyebrow mono-label">Showcase</span>
+      <h2>PROJECT SHOWCASE<span class="kr">수강생 프로젝트 자랑</span></h2>
+    </div>
+    <div class="courses" data-stagger="90">
+      <article class="course" data-reveal><div class="course__thumb"><img class="thumb-img" src="assets/courses/c1.png" alt="" /><span class="badge">WEB</span></div><div class="course__body"><span class="course__cat">풀스택 트랙</span><h3>지역 소상공인을 위한 예약 관리 웹앱</h3><div class="course__meta"><span class="star">★ 인기</span><span>좋아요 312</span></div></div></article>
+      <article class="course" data-reveal><div class="course__thumb"><img class="thumb-img" src="assets/courses/c3.png" alt="" /><span class="badge">AI</span></div><div class="course__body"><span class="course__cat">데이터·AI 트랙</span><h3>뉴스 요약 &amp; 감성분석 대시보드</h3><div class="course__meta"><span class="star">★ 인기</span><span>좋아요 268</span></div></div></article>
+      <article class="course" data-reveal><div class="course__thumb"><img class="thumb-img" src="assets/courses/c4.png" alt="" /><span class="badge">APP</span></div><div class="course__body"><span class="course__cat">앱 개발 트랙</span><h3>러닝 기록을 공유하는 소셜 앱</h3><div class="course__meta"><span class="star">★ 인기</span><span>좋아요 203</span></div></div></article>
+    </div>
+
+    <div class="ctaband" data-reveal style="margin-top:56px">
+      <div class="ctaband__bg">JOIN</div>
+      <div><h2>JOIN US<span class="kr">지금 커뮤니티에 합류하세요</span></h2><p>수강생이라면 누구나 무료로 참여할 수 있습니다.</p></div>
+      <a href="DreamIT BIZ.html" class="btn btn--light">가입하고 시작하기 <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="tweaks-root"></div>
+
+<script>window.SITE_PAGE={active:"community",hero:true};</script>
+<script src="site.js"></script>
+<script src="app.js"></script>
+<script src="page.js"></script>
+<script src="palette.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="tweaks.jsx"></script>
+</body>
+</html>

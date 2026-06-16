@@ -1,0 +1,14 @@
+/* DreamIT BIZ palette — 플럼 · 블러시 (plum) */
+:root{
+  --primary:    #4A2A47;
+  --primary-2:  #371F35;
+  --primary-ink:#4A2A47;
+  --on-primary: #FFFFFF;
+  --secondary:  #DD8298;
+  --secondary-2:#E8A0B1;
+  --secondary-ink:#B24E68;
+  --on-secondary:#FFFFFF;
+  --hero-bg:    #4A2A47;
+  --hero-ink:   #FFFFFF;
+  --hero-accent:#E8A0B1;
+}

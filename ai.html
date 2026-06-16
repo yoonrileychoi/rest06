@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko" data-motion="on">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI 활용 — 실무에 바로 쓰는 생성형 AI | 드림아이티비즈</title>
+<meta name="description" content="ChatGPT·Claude·코파일럿을 실무에 적용하는 법. 프롬프트 작성부터 업무 자동화까지, 직무별 AI 활용 가이드." />
+<link rel="stylesheet" href="styles.css" />
+<link rel="stylesheet" href="pages.css" />
+<link id="paletteCss" rel="stylesheet" href="themes/navygold.css" />
+<script>
+  (function () {
+    try {
+      if (localStorage.getItem("dreamit-mode") === "dark") document.documentElement.classList.add("dark");
+      var p = localStorage.getItem("dreamit-palette");
+      if (p) { var l = document.getElementById("paletteCss"); if (l) l.setAttribute("href", "themes/" + p + ".css"); }
+    } catch (e) {}
+  })();
+</script>
+</head>
+<body>
+<div id="site-header"></div>
+
+<section class="phero" data-screen-label="AI Hero">
+  <div class="phero__bgword">AI</div>
+  <div class="wrap phero__inner" data-stagger="100">
+    <div class="crumb" data-reveal><a href="DreamIT BIZ.html">HOME</a><span class="sep">/</span><span>AI 활용</span></div>
+    <h1 data-reveal>WORK WITH AI<span class="kr">AI를 도구로, 일을 두 배로</span></h1>
+    <p class="phero__sub" data-reveal>ChatGPT·Claude·코파일럿을 실무에 녹이는 가장 빠른 길. 프롬프트 작성부터 업무 자동화까지, 직무별로 안내합니다.</p>
+    <div class="hero__cta" data-reveal style="margin-top:32px">
+      <a href="#tracks" class="btn btn--light">활용 트랙 보기</a>
+      <a href="#playbook" class="btn btn--outline-light">실전 플레이북</a>
+    </div>
+  </div>
+</section>
+
+<div class="tabbar">
+  <div class="wrap"><div class="tabbar__row">
+    <a class="tab on" data-target="why" href="#why">왜 지금 AI인가</a>
+    <a class="tab" data-target="tracks" href="#tracks">직무별 트랙</a>
+    <a class="tab" data-target="playbook" href="#playbook">실전 플레이북</a>
+    <a class="tab" data-target="tools" href="#tools">활용 도구</a>
+  </div></div>
+</div>
+
+<!-- ===== WHY ===== -->
+<section class="section" id="why" data-screen-label="Why AI">
+  <div class="wrap">
+    <div class="ihead" data-reveal>
+      <span class="eyebrow mono-label">Why Now</span>
+      <h2>WORK SMARTER<span class="kr">하는 사람과 못 하는 사람의 격차</span></h2>
+      <p>AI는 직무를 대체하는 것이 아니라, AI를 잘 쓰는 사람이 그렇지 않은 사람을 대체합니다.</p>
+    </div>
+    <div class="statband" data-stagger="90">
+      <div class="s" data-reveal><b><span data-count="40">0</span><span class="u">%</span></b><span>반복 업무 시간 절감</span></div>
+      <div class="s" data-reveal><b><span data-count="3">0</span><span class="u">×</span></b><span>초안 작성 속도 향상</span></div>
+      <div class="s" data-reveal><b><span data-count="8500">0</span><span class="u">+</span></b><span>AI 과정 수강생</span></div>
+      <div class="s" data-reveal><b><span data-count="4.9" data-dec="1">0</span><span class="u">★</span></b><span>과정 만족도</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TRACKS ===== -->
+<section class="section section--alt" id="tracks" data-screen-label="Tracks">
+  <div class="wrap">
+    <div class="ihead" data-reveal>
+      <span class="eyebrow mono-label">By Role</span>
+      <h2>AI TRACKS<span class="kr">내 직무에 맞는 AI 활용법</span></h2>
+    </div>
+    <div class="icards" data-stagger="90">
+      <div class="icard" data-reveal><div class="icard__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6l-6 6 6 6M16 6l6 6-6 6"/></svg></div><h3>개발자를 위한 AI</h3><p>코파일럿·Claude로 코드 작성·리뷰·디버깅을 가속하는 페어 프로그래밍 워크플로.</p><a href="#playbook" class="icard__tag">자세히 →</a></div>
+      <div class="icard" data-reveal><div class="icard__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19V5M4 19h16M8 16v-5M12 16V8M16 16v-3"/></svg></div><h3>기획·마케터를 위한 AI</h3><p>리서치·카피·기획서 초안을 빠르게. 데이터 요약과 아이디에이션 활용법.</p><a href="#playbook" class="icard__tag">자세히 →</a></div>
+      <div class="icard" data-reveal><div class="icard__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M7 9l2 2-2 2M13 13h4"/></svg></div><h3>사무·운영을 위한 AI</h3><p>엑셀 수식 생성, 문서 정리, 메일 자동화로 반복 업무를 줄이는 실전 팁.</p><a href="#playbook" class="icard__tag">자세히 →</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PLAYBOOK ===== -->
+<section class="section" id="playbook" data-screen-label="Playbook">
+  <div class="wrap">
+    <div class="ihead" data-reveal>
+      <span class="eyebrow mono-label">Prompt Playbook</span>
+      <h2>PROMPT PLAYBOOK<span class="kr">결과를 바꾸는 프롬프트 4원칙</span></h2>
+    </div>
+    <div class="icards icards--4" data-stagger="80">
+      <div class="icard" data-reveal><div class="icard__no">01</div><h3>역할 부여</h3><p>"너는 10년차 백엔드 개발자야" — 맥락을 먼저 설정하면 답의 질이 달라집니다.</p></div>
+      <div class="icard" data-reveal><div class="icard__no">02</div><h3>구체적 맥락</h3><p>목적·대상·제약을 함께 주면 추측이 줄고 정확도가 올라갑니다.</p></div>
+      <div class="icard" data-reveal><div class="icard__no">03</div><h3>출력 형식 지정</h3><p>표·코드·단계별 등 원하는 형식을 명시해 바로 쓸 수 있게 받습니다.</p></div>
+      <div class="icard" data-reveal><div class="icard__no">04</div><h3>반복 개선</h3><p>한 번에 끝내지 말고, 피드백으로 결과를 다듬어 가는 대화로 만드세요.</p></div>
+    </div>
+
+    <div class="frow" data-reveal style="margin-top:64px">
+      <div>
+        <h3><span class="kr">이론이 아니라</span>오늘 바로 쓰는 예제</h3>
+        <p>모든 과정은 실제 업무 상황을 그대로 가져온 실습으로 구성됩니다. 강의가 끝나면 내 업무에 붙여 쓸 수 있는 나만의 프롬프트 템플릿이 남습니다.</p>
+        <div class="flist">
+          <div class="fi"><span class="ck">✓</span>직무별 프롬프트 템플릿 30종 제공</div>
+          <div class="fi"><span class="ck">✓</span>업무 자동화 노코드 실습</div>
+          <div class="fi"><span class="ck">✓</span>AI 활용 윤리·보안 가이드</div>
+        </div>
+      </div>
+      <div class="frow__media frow--flip"><img src="assets/courses/c3.png" alt="" /><span class="tagchip">실습 중심</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TOOLS ===== -->
+<section class="section section--alt" id="tools" data-screen-label="Tools">
+  <div class="wrap">
+    <div class="ihead" data-reveal>
+      <span class="eyebrow mono-label">Tools We Cover</span>
+      <h2>AI TOOLKIT<span class="kr">강의에서 다루는 도구들</span></h2>
+    </div>
+    <div class="logos" data-stagger="60">
+      <div class="logo" data-reveal="sc">ChatGPT</div>
+      <div class="logo" data-reveal="sc">Claude</div>
+      <div class="logo" data-reveal="sc">Copilot</div>
+      <div class="logo" data-reveal="sc">Gemini</div>
+      <div class="logo" data-reveal="sc">Midjourney</div>
+      <div class="logo" data-reveal="sc">Cursor</div>
+      <div class="logo" data-reveal="sc">Notion AI</div>
+      <div class="logo" data-reveal="sc">Perplexity</div>
+      <div class="logo" data-reveal="sc">Zapier</div>
+      <div class="logo" data-reveal="sc">Make</div>
+      <div class="logo" data-reveal="sc">Whisper</div>
+      <div class="logo" data-reveal="sc">RunwayML</div>
+    </div>
+
+    <div class="ctaband" data-reveal style="margin-top:56px">
+      <div class="ctaband__bg">AI</div>
+      <div><h2>LEVEL UP<span class="kr">AI로 일하는 법, 지금 배우세요</span></h2><p>입문 무료 특강으로 가볍게 시작할 수 있습니다.</p></div>
+      <a href="courses.html" class="btn btn--light">AI 강의 보러가기 <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<div id="tweaks-root"></div>
+
+<script>window.SITE_PAGE={active:"ai",hero:true};</script>
+<script src="site.js"></script>
+<script src="app.js"></script>
+<script src="page.js"></script>
+<script src="palette.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="tweaks.jsx"></script>
+</body>
+</html>
