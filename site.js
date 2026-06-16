@@ -3,7 +3,7 @@
    then includes this script. Fills #site-header and #site-footer placeholders. */
 (function () {
   "use strict";
-  var HOME = "DreamIT BIZ.html";
+  var HOME = "index.html";
   var PAGE = window.SITE_PAGE || { active: "home", hero: false };
 
   var MENU = [
