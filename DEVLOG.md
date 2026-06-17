@@ -281,15 +281,137 @@ values (1, 'YOUR_SOLAR_API_KEY', 'YOUR_OPENAI_API_KEY', 'solar');
 
 ---
 
+---
+
+## 2026-06-17 (3일차) — 채팅봇 보안 강화 + UI 개선 + 팔레트 복구
+
+### 채팅봇 보안 아키텍처 개선
+
+**문제:** Solar/OpenAI API 키가 Supabase anon 키로 브라우저에서 직접 조회 가능 → 키 노출 위험  
+**해결:** Supabase Edge Function 도입으로 API 키를 서버 사이드에서만 처리
+
+#### Supabase Edge Function (`chat`)
+- 파일: `supabase/functions/chat/index.ts`
+- 배포: Supabase 대시보드 → Edge Functions → New Function → 코드 붙여넣기
+- **Verify JWT 옵션: OFF** (로그인 없이도 챗봇 사용 가능)
+
+**동작 흐름:**
+1. 브라우저 → Supabase Edge Function (anon 키로 인증, API 키 전달 안 함)
+2. Edge Function → `r06_chat_config` 테이블에서 API 키 조회 (SERVICE_ROLE_KEY 사용, 브라우저 접근 불가)
+3. Edge Function → Solar/OpenAI API 호출
+4. 응답을 브라우저로 반환
+
+#### IP 기반 rate limit
+로그인 없이 이용 가능하므로 IP 기반으로 남용 방지.
+
+```sql
+-- r06_chat_config 테이블의 anon 읽기 정책 제거 (Edge Function이 service_role로 읽으므로 불필요)
+drop policy if exists "anon can read r06_chat_config" on public.r06_chat_config;
+
+-- IP 기반 rate limit 테이블
+create table public.r06_chat_usage (
+  identifier text not null,
+  hour_bucket timestamptz not null,
+  count integer not null default 1,
+  primary key (identifier, hour_bucket)
+);
+alter table public.r06_chat_usage enable row level security;
+-- Edge Function이 service_role로 접근하므로 anon 정책 불필요
+```
+
+- 시간당 20회 제한 (IP 기준)
+- 초과 시 한국어 오류 메시지 반환
+
+#### 결제 검증 Edge Function (준비 완료, 미배포)
+- 파일: `supabase/functions/verify-payment/index.ts`
+- Iamport 가맹점 코드 연동 후 활성화 예정
+- JWT 검증 → Iamport 토큰 발급 → 결제 금액 확인 → 중복 방지 → DB 저장 순으로 처리
+
+---
+
+### 채팅봇 UI 개선
+
+#### 모델 선택 탭
+- Solar (Upstage) / OpenAI 탭을 채팅창 상단에 표시
+- 탭 클릭 시 해당 모델로 실시간 전환
+- active 탭은 `var(--primary)` 배경으로 강조
+
+#### 골드 툴팁 말풍선
+- 채팅창이 닫혀있을 때 항상 표시
+- 히어로 카드와 동일한 `chatbot-floaty` 둥둥 애니메이션 (6s)
+- 골드 그라디언트 (`#F7971E → #FFD200`) + 흰색 테두리 + 외곽 글로우
+- 이중 화살표: 흰색 테두리 화살표 + 골드 내부 화살표
+
+#### FAB 버튼
+- 골드 그라디언트 + 흰색 테두리 (툴팁과 통일된 디자인)
+- 온라인 표시 초록 점 (우측 상단)
+
+---
+
+### 팔레트 선택기 + 다크/라이트 모드 복구
+
+React 전환 과정에서 누락된 기능을 복구.
+
+**구현 방식:**
+- `public/themes/*.css` — 8개 컬러 테마 CSS 변수 파일 (navygold, meritz, forest, charcoal, teal, plum, slate, burgundy)
+- `index.html` → `<link id="paletteCss" rel="stylesheet" href="/rest06/themes/navygold.css">` 추가
+- `Header.jsx` → 팔레트 picker 팝오버 + 다크모드 토글 버튼 추가
+- localStorage 영속성: `dreamit-palette`, `dreamit-mode`
+
+**팔레트 전환 원리:**
+```jsx
+// palette 상태 변경 시 CSS 링크 href를 교체 → :root CSS 변수 즉시 반영
+const link = document.getElementById('paletteCss')
+link.href = `/rest06/themes/${palette}.css`
+```
+
+**다크모드 원리:**
+```jsx
+// darkMode 상태 변경 시 <html class="dark"> 토글
+document.documentElement.classList.toggle('dark', darkMode)
+```
+
+**8가지 컬러 테마:**
+
+| ID | 이름 | Primary | Secondary |
+|----|------|---------|-----------|
+| `navygold` | 다크블루 · 골드 | `#1C2C5A` | `#F2B829` |
+| `meritz` | 레드 · 네이비 | `#C42E3C` | `#1B2A57` |
+| `forest` | 포레스트 · 샌드 | `#1F4E3D` | `#E0B252` |
+| `charcoal` | 차콜 · 코랄 | `#2A3540` | `#E0694B` |
+| `teal` | 틸 · 클레이 | `#155E63` | `#D98B5F` |
+| `plum` | 플럼 · 블러시 | `#4A2A47` | `#DD8298` |
+| `slate` | 슬레이트 · 스카이 | `#2E3A59` | `#5B8FB0` |
+| `burgundy` | 버건디 · 카멜 | `#6E1F2E` | `#C99A5B` |
+
+---
+
+### 현재 상태 (2026-06-17 3일차 기준)
+
+| 기능 | 상태 |
+|------|------|
+| React 앱 구조 | ✅ 완료 |
+| 7개 페이지 컴포넌트 | ✅ 완료 |
+| 헤더 / 푸터 / 라우팅 | ✅ 완료 |
+| 팔레트 선택기 (8 테마) | ✅ 완료 |
+| 다크/라이트 모드 토글 | ✅ 완료 |
+| Google / Kakao 로그인 UI | ✅ 완료 (Supabase OAuth 설정 필요) |
+| AI 채팅봇 드림봇 | ✅ 완료 |
+| 채팅봇 모델 선택 (Solar/OpenAI) | ✅ 완료 |
+| 채팅봇 API 키 보안 (Edge Function) | ✅ 완료 |
+| IP 기반 rate limit (20회/시간) | ✅ 완료 |
+| 결제 검증 Edge Function | ✅ 코드 완성 (Iamport 가맹점 등록 후 배포) |
+| Iamport 결제 코드 | ✅ 완료 (가맹점 코드 미연동) |
+| Supabase DB 연동 | ✅ 완료 |
+| GitHub Pages 배포 | ✅ 완료 |
+
+---
+
 ### 향후 개발 계획
 
-- [ ] GitHub Pages 활성화 → 실제 배포 URL 확인
 - [ ] Supabase Google / Kakao OAuth 실 연동
-- [ ] Supabase 테이블 4개 생성 (purchases, corporate_inquiries, community_posts, chat_config) + RLS 적용
 - [ ] 강좌 상세 페이지 (`/courses/:id`)
 - [ ] 마이페이지 (수강 내역 조회)
-- [ ] Iamport 사업자 등록 후 실결제 연동
-- [ ] Supabase Edge Functions로 채팅봇 API 호출 서버 사이드 이동 (보안 강화)
-- [ ] Supabase Edge Functions로 결제 검증
+- [ ] Iamport 사업자 등록 후 실결제 연동 → `verify-payment` Edge Function 배포
 - [ ] 커뮤니티 게시글 작성 / 수정 / 삭제
-- [ ] 다크 모드 + 컬러 팔레트 설정 저장 (Supabase user metadata)
+- [ ] 팔레트 선택을 Supabase user metadata에 저장 (기기 간 동기화)
