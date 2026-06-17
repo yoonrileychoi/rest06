@@ -1,13 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
-import { supabase } from '../../lib/supabase'
-import { useAuth } from '../../context/AuthContext'
 import './ChatBot.css'
 
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
 const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 export default function ChatBot() {
-  const { user } = useAuth()
   const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState([
     { role: 'assistant', content: '안녕하세요! 드림아이티비즈 AI 학습 도우미 드림봇입니다 😊\n강좌 선택, 자격증 준비, 취업 정보 등 무엇이든 물어보세요!' }
@@ -18,8 +15,8 @@ export default function ChatBot() {
   const inputRef = useRef(null)
 
   useEffect(() => {
-    if (open && user) setTimeout(() => inputRef.current?.focus(), 100)
-  }, [open, user])
+    if (open) setTimeout(() => inputRef.current?.focus(), 100)
+  }, [open])
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -48,15 +45,12 @@ export default function ChatBot() {
   }
 
   async function callEdgeFunction(msgs) {
-    const { data: { session } } = await supabase.auth.getSession()
-    if (!session) throw new Error('로그인 후 이용하실 수 있습니다.')
-
     const res = await fetch(`${SUPABASE_URL}/functions/v1/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${session.access_token}`,
         'apikey': SUPABASE_ANON_KEY,
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
       },
       body: JSON.stringify({
         messages: msgs.map(m => ({ role: m.role, content: m.content }))
@@ -126,38 +120,28 @@ export default function ChatBot() {
             <div ref={endRef} />
           </div>
 
-          {user ? (
-            <div className="chatbot-footer">
-              <input
-                ref={inputRef}
-                className="chatbot-input"
-                value={input}
-                onChange={e => setInput(e.target.value)}
-                onKeyDown={e => e.key === 'Enter' && !e.shiftKey && sendMessage()}
-                placeholder="질문을 입력하세요..."
-                disabled={loading}
-                maxLength={500}
-              />
-              <button
-                className="chatbot-send"
-                onClick={sendMessage}
-                disabled={loading || !input.trim()}
-                aria-label="전송"
-              >
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
-                </svg>
-              </button>
-            </div>
-          ) : (
-            <div className="chatbot-login-prompt">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-                <circle cx="12" cy="9" r="2.5"/>
+          <div className="chatbot-footer">
+            <input
+              ref={inputRef}
+              className="chatbot-input"
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && !e.shiftKey && sendMessage()}
+              placeholder="질문을 입력하세요..."
+              disabled={loading}
+              maxLength={500}
+            />
+            <button
+              className="chatbot-send"
+              onClick={sendMessage}
+              disabled={loading || !input.trim()}
+              aria-label="전송"
+            >
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
               </svg>
-              <p>로그인 후 드림봇을 이용할 수 있어요</p>
-            </div>
-          )}
+            </button>
+          </div>
         </div>
       )}
     </>

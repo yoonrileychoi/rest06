@@ -5,7 +5,7 @@ const SYSTEM_PROMPT = `당신은 드림아이티비즈(DreamIT BIZ) 온라인 IT
 제공 강좌: 풀스택 웹 개발 부트캠프, 정보처리기사, 파이썬 & 생성형 AI, React 실전, 엑셀 자동화, SQLD.
 답변은 간결하게, 항상 한국어로 답변하세요.`
 
-const RATE_LIMIT = 30 // 시간당 최대 메시지 수
+const RATE_LIMIT = 20 // IP당 시간당 최대 요청 수
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -23,28 +23,18 @@ Deno.serve(async (req: Request) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
 
   try {
-    // 요청 본문을 먼저 파싱 (body는 한 번만 읽을 수 있음)
     const { messages } = await req.json()
-
-    // 1. JWT 검증 — 로그인 사용자만 허용
-    const authHeader = req.headers.get('Authorization')
-    if (!authHeader?.startsWith('Bearer ')) {
-      return jsonResponse({ error: '로그인 후 이용하실 수 있습니다.' }, 401)
-    }
 
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
     )
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser(
-      authHeader.slice(7)
-    )
-    if (authError || !user) {
-      return jsonResponse({ error: '로그인 후 이용하실 수 있습니다.' }, 401)
-    }
+    // IP 기반 rate limit — 로그인 없이도 남용 방지
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim()
+      || req.headers.get('x-real-ip')
+      || 'unknown'
 
-    // 2. Rate limit — 시간당 30회 제한
     const hourBucket = new Date()
     hourBucket.setMinutes(0, 0, 0)
     const hourBucketStr = hourBucket.toISOString()
@@ -52,7 +42,7 @@ Deno.serve(async (req: Request) => {
     const { data: usage } = await supabase
       .from('r06_chat_usage')
       .select('count')
-      .eq('user_id', user.id)
+      .eq('identifier', ip)
       .eq('hour_bucket', hourBucketStr)
       .single()
 
@@ -63,13 +53,12 @@ Deno.serve(async (req: Request) => {
       )
     }
 
-    // 카운트 증가
     await supabase.from('r06_chat_usage').upsert(
-      { user_id: user.id, hour_bucket: hourBucketStr, count: (usage?.count ?? 0) + 1 },
-      { onConflict: 'user_id,hour_bucket' }
+      { identifier: ip, hour_bucket: hourBucketStr, count: (usage?.count ?? 0) + 1 },
+      { onConflict: 'identifier,hour_bucket' }
     )
 
-    // 3. API 키 조회 (서버에서만 접근)
+    // API 키 조회 (서버에서만 접근, 브라우저에 노출 안 됨)
     const { data: config, error: configError } = await supabase
       .from('r06_chat_config')
       .select('solar_api_key, openai_api_key, preferred_provider')
@@ -80,7 +69,6 @@ Deno.serve(async (req: Request) => {
       return jsonResponse({ error: 'API 설정을 불러올 수 없습니다.' }, 500)
     }
 
-    // 4. AI 호출
     const useSolar = config.preferred_provider !== 'openai' && !!config.solar_api_key
     const endpoint = useSolar
       ? 'https://api.upstage.ai/v1/chat/completions'
