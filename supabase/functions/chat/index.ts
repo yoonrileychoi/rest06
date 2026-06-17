@@ -23,7 +23,7 @@ Deno.serve(async (req: Request) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: corsHeaders })
 
   try {
-    const { messages } = await req.json()
+    const { messages, provider } = await req.json()
 
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL')!,
@@ -69,7 +69,9 @@ Deno.serve(async (req: Request) => {
       return jsonResponse({ error: 'API 설정을 불러올 수 없습니다.' }, 500)
     }
 
-    const useSolar = config.preferred_provider !== 'openai' && !!config.solar_api_key
+    // 프론트에서 선택한 provider 우선, 없으면 DB 설정 사용
+    const selectedProvider = provider || config.preferred_provider || 'solar'
+    const useSolar = selectedProvider !== 'openai' && !!config.solar_api_key
     const endpoint = useSolar
       ? 'https://api.upstage.ai/v1/chat/completions'
       : 'https://api.openai.com/v1/chat/completions'
