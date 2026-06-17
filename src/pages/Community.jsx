@@ -10,7 +10,7 @@ export default function Community() {
 
   useEffect(() => {
     supabase
-      .from('community_posts')
+      .from('r06_community_posts')
       .select('*')
       .order('created_at', { ascending: false })
       .limit(20)

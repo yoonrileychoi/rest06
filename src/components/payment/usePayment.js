@@ -26,7 +26,7 @@ export function usePayment() {
         },
         async (rsp) => {
           if (rsp.success) {
-            const { error } = await supabase.from('purchases').insert({
+            const { error } = await supabase.from('r06_purchases').insert({
               user_id: user.id,
               course_id: course.id,
               imp_uid: rsp.imp_uid,

@@ -34,7 +34,7 @@ export default function ChatBot() {
 
   async function loadApiConfig() {
     const { data, error } = await supabase
-      .from('chat_config')
+      .from('r06_chat_config')
       .select('solar_api_key, openai_api_key, preferred_provider')
       .eq('id', 1)
       .single()

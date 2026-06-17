@@ -10,7 +10,7 @@ export default function Corporate() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSending(true)
-    const { error } = await supabase.from('corporate_inquiries').insert({ ...form, created_at: new Date().toISOString() })
+    const { error } = await supabase.from('r06_corporate_inquiries').insert({ ...form, created_at: new Date().toISOString() })
     setSending(false)
     if (!error) { setSent(true); setForm({ company: '', name: '', email: '', phone: '', message: '' }) }
   }

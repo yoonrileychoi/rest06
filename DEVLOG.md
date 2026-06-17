@@ -145,9 +145,11 @@ http://localhost:5173/rest06/
 
 Supabase 대시보드 → `Table Editor` 또는 `SQL Editor`에서 실행:
 
-#### purchases (결제 내역)
+> **테이블 prefix 규칙:** 다른 Supabase 프로젝트와 충돌 방지를 위해 모든 테이블에 `r06_` prefix 사용.
+
+#### r06_purchases (결제 내역)
 ```sql
-create table public.purchases (
+create table public.r06_purchases (
   id uuid default gen_random_uuid() primary key,
   user_id uuid references auth.users(id) on delete cascade,
   course_id text not null,
@@ -157,16 +159,16 @@ create table public.purchases (
   paid_at timestamptz,
   created_at timestamptz default now()
 );
-alter table public.purchases enable row level security;
-create policy "users can view own purchases"
-  on public.purchases for select using (auth.uid() = user_id);
-create policy "users can insert own purchases"
-  on public.purchases for insert with check (auth.uid() = user_id);
+alter table public.r06_purchases enable row level security;
+create policy "users can view own r06_purchases"
+  on public.r06_purchases for select using (auth.uid() = user_id);
+create policy "users can insert own r06_purchases"
+  on public.r06_purchases for insert with check (auth.uid() = user_id);
 ```
 
-#### corporate_inquiries (기업교육 문의)
+#### r06_corporate_inquiries (기업교육 문의)
 ```sql
-create table public.corporate_inquiries (
+create table public.r06_corporate_inquiries (
   id uuid default gen_random_uuid() primary key,
   company text,
   name text,
@@ -175,25 +177,25 @@ create table public.corporate_inquiries (
   message text,
   created_at timestamptz default now()
 );
-alter table public.corporate_inquiries enable row level security;
-create policy "anyone can insert inquiry"
-  on public.corporate_inquiries for insert with check (true);
+alter table public.r06_corporate_inquiries enable row level security;
+create policy "anyone can insert r06_inquiry"
+  on public.r06_corporate_inquiries for insert with check (true);
 ```
 
-#### community_posts (커뮤니티 게시글)
+#### r06_community_posts (커뮤니티 게시글)
 ```sql
-create table public.community_posts (
+create table public.r06_community_posts (
   id uuid default gen_random_uuid() primary key,
   user_id uuid references auth.users(id) on delete cascade,
   title text not null,
   content text,
   created_at timestamptz default now()
 );
-alter table public.community_posts enable row level security;
-create policy "anyone can view posts"
-  on public.community_posts for select using (true);
-create policy "logged in users can post"
-  on public.community_posts for insert with check (auth.uid() = user_id);
+alter table public.r06_community_posts enable row level security;
+create policy "anyone can view r06_posts"
+  on public.r06_community_posts for select using (true);
+create policy "logged in users can post r06"
+  on public.r06_community_posts for insert with check (auth.uid() = user_id);
 ```
 
 ---
@@ -253,7 +255,7 @@ create policy "logged in users can post"
 Supabase 대시보드 → SQL Editor에서 실행:
 
 ```sql
-create table public.chat_config (
+create table public.r06_chat_config (
   id integer primary key default 1,
   solar_api_key text,
   openai_api_key text,
@@ -262,12 +264,12 @@ create table public.chat_config (
 );
 
 -- 앱(anon 키)이 읽을 수 있도록 허용
-alter table public.chat_config enable row level security;
-create policy "anon can read chat_config"
-  on public.chat_config for select using (true);
+alter table public.r06_chat_config enable row level security;
+create policy "anon can read r06_chat_config"
+  on public.r06_chat_config for select using (true);
 
 -- API 키 삽입 (실제 키로 교체)
-insert into public.chat_config (id, solar_api_key, openai_api_key, preferred_provider)
+insert into public.r06_chat_config (id, solar_api_key, openai_api_key, preferred_provider)
 values (1, 'YOUR_SOLAR_API_KEY', 'YOUR_OPENAI_API_KEY', 'solar');
 ```
 
