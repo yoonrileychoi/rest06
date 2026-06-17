@@ -8,6 +8,7 @@ import Certifications from './pages/Certifications'
 import AI from './pages/AI'
 import Community from './pages/Community'
 import Corporate from './pages/Corporate'
+import ChatBot from './components/chat/ChatBot'
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/corporate" element={<Corporate />} />
       </Routes>
       <Footer />
+      <ChatBot />
     </>
   )
 }

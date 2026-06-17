@@ -226,7 +226,56 @@ create policy "logged in users can post"
 | Iamport 결제 코드 | ✅ 완료 (가맹점 코드 미연동) |
 | Supabase DB 연동 | ✅ 완료 (테이블 생성 필요) |
 | GitHub Actions 배포 | ✅ 워크플로우 완료 (Pages 활성화 필요) |
+| AI 채팅봇 (드림봇) | ✅ 완료 (Supabase chat_config 테이블 설정 필요) |
 | 로컬 빌드 | ✅ 성공 확인 |
+
+---
+
+## 2026-06-17 (2일차) — AI 채팅봇 추가
+
+### AI 채팅봇 (드림봇)
+
+우측 하단 플로팅 버튼을 클릭하면 팝업 채팅창이 열리는 AI 학습 도우미.
+
+**구현 내용:**
+- `src/components/chat/ChatBot.jsx` — 채팅봇 컴포넌트
+- `src/components/chat/ChatBot.css` — 스타일 (플로팅 버튼 + 팝업 + 메시지 버블)
+- `src/App.jsx` — ChatBot 전역 추가 (모든 페이지에서 사용 가능)
+
+**동작 방식:**
+1. Supabase `chat_config` 테이블에서 API 키 불러오기
+2. `preferred_provider` 설정에 따라 Solar API(Upstage) 또는 OpenAI 사용
+3. Solar API: `https://api.upstage.ai/v1/chat/completions` (모델: `solar-pro`)
+4. OpenAI 폴백: `https://api.openai.com/v1/chat/completions` (모델: `gpt-4o-mini`)
+
+### Supabase chat_config 테이블 설정
+
+Supabase 대시보드 → SQL Editor에서 실행:
+
+```sql
+create table public.chat_config (
+  id integer primary key default 1,
+  solar_api_key text,
+  openai_api_key text,
+  preferred_provider text default 'solar',
+  updated_at timestamptz default now()
+);
+
+-- 앱(anon 키)이 읽을 수 있도록 허용
+alter table public.chat_config enable row level security;
+create policy "anon can read chat_config"
+  on public.chat_config for select using (true);
+
+-- API 키 삽입 (실제 키로 교체)
+insert into public.chat_config (id, solar_api_key, openai_api_key, preferred_provider)
+values (1, 'YOUR_SOLAR_API_KEY', 'YOUR_OPENAI_API_KEY', 'solar');
+```
+
+> **preferred_provider** 값:
+> - `'solar'` → Upstage Solar API 우선 사용
+> - `'openai'` → OpenAI API 사용
+
+> **보안 참고:** API 키가 Supabase anon 키로 조회 가능합니다. 프로덕션에서는 Supabase Edge Function으로 API 호출을 서버 사이드로 이동하는 것을 권장합니다.
 
 ---
 
@@ -234,10 +283,11 @@ create policy "logged in users can post"
 
 - [ ] GitHub Pages 활성화 → 실제 배포 URL 확인
 - [ ] Supabase Google / Kakao OAuth 실 연동
-- [ ] Supabase 테이블 3개 생성 + RLS 적용
+- [ ] Supabase 테이블 4개 생성 (purchases, corporate_inquiries, community_posts, chat_config) + RLS 적용
 - [ ] 강좌 상세 페이지 (`/courses/:id`)
 - [ ] 마이페이지 (수강 내역 조회)
 - [ ] Iamport 사업자 등록 후 실결제 연동
-- [ ] Supabase Edge Functions로 서버 사이드 결제 검증
+- [ ] Supabase Edge Functions로 채팅봇 API 호출 서버 사이드 이동 (보안 강화)
+- [ ] Supabase Edge Functions로 결제 검증
 - [ ] 커뮤니티 게시글 작성 / 수정 / 삭제
 - [ ] 다크 모드 + 컬러 팔레트 설정 저장 (Supabase user metadata)
