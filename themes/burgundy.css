@@ -1,0 +1,14 @@
+/* DreamIT BIZ palette — 버건디 · 카멜 (burgundy) */
+:root{
+  --primary:    #6E1F2E;
+  --primary-2:  #561622;
+  --primary-ink:#6E1F2E;
+  --on-primary: #FFFFFF;
+  --secondary:  #C99A5B;
+  --secondary-2:#D8B27E;
+  --secondary-ink:#92682E;
+  --on-secondary:#FFFFFF;
+  --hero-bg:    #6E1F2E;
+  --hero-ink:   #FFFFFF;
+  --hero-accent:#E7C98F;
+}

@@ -1,0 +1,14 @@
+/* DreamIT BIZ palette — 틸 · 클레이 (teal) */
+:root{
+  --primary:    #155E63;
+  --primary-2:  #0F484C;
+  --primary-ink:#155E63;
+  --on-primary: #FFFFFF;
+  --secondary:  #D98B5F;
+  --secondary-2:#E5A47D;
+  --secondary-ink:#B5663A;
+  --on-secondary:#FFFFFF;
+  --hero-bg:    #155E63;
+  --hero-ink:   #FFFFFF;
+  --hero-accent:#E5A47D;
+}

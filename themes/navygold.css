@@ -1,0 +1,14 @@
+/* DreamIT BIZ palette — 다크블루 · 골드 (navygold) — DEFAULT */
+:root{
+  --primary:    #1C2C5A;
+  --primary-2:  #142146;
+  --primary-ink:#1C2C5A;
+  --on-primary: #FFFFFF;
+  --secondary:  #F2B829;
+  --secondary-2:#FFCF5C;
+  --secondary-ink:#9A7400;
+  --on-secondary:#1A1407;
+  --hero-bg:    #1C2C5A;
+  --hero-ink:   #FFFFFF;
+  --hero-accent:#F2B829;
+}
