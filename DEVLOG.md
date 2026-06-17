@@ -407,6 +407,34 @@ document.documentElement.classList.toggle('dark', darkMode)
 
 ---
 
+## 2026-06-17 (4일차) — 네비바 버튼 간격 및 구분선 버그 수정
+
+### 문제
+- 컬러 팔레트 버튼 앞에 구분선이 표시됨
+- 나이트모드 버튼과 로그인 버튼이 붙어 보임
+- 화면 배율 조정 시 버튼이 찌그러지거나 겹치는 현상
+
+### 원인
+`styles.css`의 원본 `.nav__tools` 규칙에 `border-left`, `padding-left`, `margin-right: -28px`이 남아 있어 `Header.css`의 오버라이드가 무효화되고 있었음.
+
+```css
+/* 문제 원인 — styles.css 원본 (수정 전) */
+.nav__tools { ... padding-left: 18px; margin-right: -28px; border-left: 1px solid var(--line-2); }
+```
+
+### 수정 내용
+
+**`styles.css`:**
+- `.nav__tools`에서 `border-left`, `padding-left`, `margin-left`, `margin-right: -28px` 제거
+- 반응형 breakpoint(1280px, 860px) `.nav__tools` padding-left 추가 구문 삭제
+
+**`Header.css`:**
+- `border: none; padding: 0; margin-left: 0` 명시적으로 추가 (상속 차단)
+- `flex-shrink: 0; white-space: nowrap` 추가 → 줌·배율 조정해도 버튼 찌그러짐 없음
+- 1280px / 1000px 반응형 미디어쿼리 추가 → 단계적 크기 축소
+
+---
+
 ### 향후 개발 계획
 
 - [ ] Supabase Google / Kakao OAuth 실 연동
