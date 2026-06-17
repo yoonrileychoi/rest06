@@ -1,0 +1,14 @@
+/* DreamIT BIZ palette — 슬레이트 · 스카이 (slate) */
+:root{
+  --primary:    #2E3A59;
+  --primary-2:  #222C45;
+  --primary-ink:#2E3A59;
+  --on-primary: #FFFFFF;
+  --secondary:  #5B8FB0;
+  --secondary-2:#7AA8C5;
+  --secondary-ink:#3E6E8E;
+  --on-secondary:#FFFFFF;
+  --hero-bg:    #2E3A59;
+  --hero-ink:   #FFFFFF;
+  --hero-accent:#9BC4DD;
+}

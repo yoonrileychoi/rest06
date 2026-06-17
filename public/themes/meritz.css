@@ -1,0 +1,14 @@
+/* DreamIT BIZ palette — 레드 · 네이비 (meritz) */
+:root{
+  --primary:    #C42E3C;
+  --primary-2:  #A52230;
+  --primary-ink:#BC2A38;
+  --on-primary: #FFFFFF;
+  --secondary:  #1B2A57;
+  --secondary-2:#33478C;
+  --secondary-ink:#1B2A57;
+  --on-secondary:#FFFFFF;
+  --hero-bg:    #C42E3C;
+  --hero-ink:   #FFFFFF;
+  --hero-accent:#FFD15C;
+}
