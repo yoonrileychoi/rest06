@@ -7,12 +7,6 @@ const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
 export default function ChatBot() {
   const [open, setOpen] = useState(false)
   const [provider, setProvider] = useState('solar')
-  const [showTooltip, setShowTooltip] = useState(true)
-
-  useEffect(() => {
-    const t = setTimeout(() => setShowTooltip(false), 5000)
-    return () => clearTimeout(t)
-  }, [])
   const [messages, setMessages] = useState([
     { role: 'assistant', content: '안녕하세요! 드림아이티비즈 AI 학습 도우미 드림봇입니다 😊\n강좌 선택, 자격증 준비, 취업 정보 등 무엇이든 물어보세요!' }
   ])
@@ -72,7 +66,7 @@ export default function ChatBot() {
 
   return (
     <>
-      {!open && showTooltip && (
+      {!open && (
         <div className="chatbot-tooltip">
           <div className="chatbot-tooltip__text">
             <strong>드림봇에게 물어보세요! 🎓</strong>
@@ -83,7 +77,7 @@ export default function ChatBot() {
 
       <button
         className={`chatbot-fab${open ? ' chatbot-fab--open' : ''}`}
-        onClick={() => { setOpen(o => !o); setShowTooltip(false) }}
+        onClick={() => setOpen(o => !o)}
         aria-label="AI 채팅 도우미 열기"
       >
         {open ? (
