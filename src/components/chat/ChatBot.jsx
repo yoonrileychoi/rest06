@@ -1,11 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
-import { supabase } from '../../lib/supabase'
 import './ChatBot.css'
 
-const SYSTEM_PROMPT = `당신은 드림아이티비즈(DreamIT BIZ) 온라인 IT 교육 플랫폼의 AI 학습 도우미 '드림봇'입니다.
-수강생들의 IT 학습, 강좌 선택, 자격증 준비, 취업 정보에 관한 질문에 친절하고 전문적으로 답변해주세요.
-제공 강좌: 풀스택 웹 개발 부트캠프, 정보처리기사, 파이썬 & 생성형 AI, React 실전, 엑셀 자동화, SQLD.
-답변은 간결하게, 항상 한국어로 답변하세요.`
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
+const SUPABASE_ANON_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
 
 export default function ChatBot() {
   const [open, setOpen] = useState(false)
@@ -14,41 +11,16 @@ export default function ChatBot() {
   ])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
-  const [apiConfig, setApiConfig] = useState(null)
-  const [configError, setConfigError] = useState('')
   const endRef = useRef(null)
   const inputRef = useRef(null)
 
   useEffect(() => {
-    if (open && !apiConfig && !configError) {
-      loadApiConfig()
-    }
-    if (open) {
-      setTimeout(() => inputRef.current?.focus(), 100)
-    }
+    if (open) setTimeout(() => inputRef.current?.focus(), 100)
   }, [open])
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages, loading])
-
-  async function loadApiConfig() {
-    const { data, error } = await supabase
-      .from('r06_chat_config')
-      .select('solar_api_key, openai_api_key, preferred_provider')
-      .eq('id', 1)
-      .single()
-
-    if (error || !data) {
-      setConfigError('API 설정을 불러올 수 없습니다. Supabase chat_config 테이블을 확인해주세요.')
-      return
-    }
-    if (!data.solar_api_key && !data.openai_api_key) {
-      setConfigError('API 키가 설정되지 않았습니다. Supabase chat_config 테이블에 키를 등록해주세요.')
-      return
-    }
-    setApiConfig(data)
-  }
 
   async function sendMessage() {
     const text = input.trim()
@@ -60,7 +32,7 @@ export default function ChatBot() {
     setLoading(true)
 
     try {
-      const reply = await callAI(newMessages)
+      const reply = await callEdgeFunction(newMessages)
       setMessages(prev => [...prev, { role: 'assistant', content: reply }])
     } catch {
       setMessages(prev => [...prev, {
@@ -72,41 +44,22 @@ export default function ChatBot() {
     }
   }
 
-  async function callAI(msgs) {
-    if (!apiConfig) throw new Error('API config not loaded')
-
-    const provider = apiConfig.preferred_provider || 'solar'
-    const useSolar = provider === 'solar' && apiConfig.solar_api_key
-
-    const endpoint = useSolar
-      ? 'https://api.upstage.ai/v1/chat/completions'
-      : 'https://api.openai.com/v1/chat/completions'
-    const apiKey = useSolar ? apiConfig.solar_api_key : apiConfig.openai_api_key
-    const model = useSolar ? 'solar-pro' : 'gpt-4o-mini'
-
-    const res = await fetch(endpoint, {
+  async function callEdgeFunction(msgs) {
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
+        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+        'apikey': SUPABASE_ANON_KEY,
       },
       body: JSON.stringify({
-        model,
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          ...msgs.map(m => ({ role: m.role, content: m.content }))
-        ],
-        max_tokens: 800,
-        temperature: 0.7
+        messages: msgs.map(m => ({ role: m.role, content: m.content }))
       })
     })
 
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}))
-      throw new Error(err?.error?.message || `API error ${res.status}`)
-    }
     const data = await res.json()
-    return data.choices[0].message.content
+    if (!res.ok || data.error) throw new Error(data.error || `오류 ${res.status}`)
+    return data.content
   }
 
   return (
@@ -146,9 +99,6 @@ export default function ChatBot() {
           </div>
 
           <div className="chatbot-messages">
-            {configError && (
-              <div className="chatbot-error">{configError}</div>
-            )}
             {messages.map((m, i) => (
               <div key={i} className={`chatbot-msg chatbot-msg--${m.role}`}>
                 {m.role === 'assistant' && <div className="chatbot-msg__av">AI</div>}
@@ -178,13 +128,13 @@ export default function ChatBot() {
               onChange={e => setInput(e.target.value)}
               onKeyDown={e => e.key === 'Enter' && !e.shiftKey && sendMessage()}
               placeholder="질문을 입력하세요..."
-              disabled={loading || !!configError}
+              disabled={loading}
               maxLength={500}
             />
             <button
               className="chatbot-send"
               onClick={sendMessage}
-              disabled={loading || !input.trim() || !!configError}
+              disabled={loading || !input.trim()}
               aria-label="전송"
             >
               <svg viewBox="0 0 24 24" fill="currentColor">
