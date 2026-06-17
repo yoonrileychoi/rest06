@@ -52,8 +52,14 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  margin-right: 16px;
+  /* 오른쪽 로그인 버튼과의 간격 확보 */
+  margin-right: 8px;
+  /* styles.css 잔여 border/padding 완전 제거 */
+  border: none;
+  padding: 0;
+  margin-left: 0;
 }
+.nav.on-hero .nav__tools { border: none; }
 
 .ntool {
   display: inline-flex;
@@ -62,6 +68,7 @@
   gap: 8px;
   height: 40px;
   padding: 0 14px;
+  flex-shrink: 0;
   border: none;
   border-radius: 100px;
   font-weight: 700;
@@ -71,17 +78,18 @@
   cursor: pointer;
   box-shadow: inset 0 0 0 1.5px var(--line, rgba(28,44,90,.2));
   transition: box-shadow .2s, transform .2s, background .2s;
+  white-space: nowrap;
 }
 .ntool:hover { transform: translateY(-2px); box-shadow: inset 0 0 0 1.5px var(--ink, #1C2C5A); }
 .nav.on-hero .ntool { color: var(--hero-ink, #fff); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.45); }
 .nav.on-hero .ntool:hover { box-shadow: inset 0 0 0 1.5px #fff; }
 
-.palette-btn { width: 48px; padding: 0; }
-.pal-swatch { display: inline-flex; width: 30px; height: 15px; border-radius: 100px; overflow: hidden; box-shadow: 0 0 0 1px rgba(0,0,0,.14); }
+.palette-btn { width: 44px; padding: 0; }
+.pal-swatch { display: inline-flex; width: 28px; height: 14px; border-radius: 100px; overflow: hidden; box-shadow: 0 0 0 1px rgba(0,0,0,.14); flex-shrink: 0; }
 .pal-swatch i { flex: 1; }
 
 .mode-btn { width: 40px; padding: 0; }
-.mode-btn svg { width: 20px; height: 20px; }
+.mode-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
 .ic-sun  { display: none; }
 .ic-moon { display: block; }
 html.dark .ic-sun  { display: block; }
@@ -138,6 +146,20 @@ html.dark .ic-moon { display: none; }
 .pal-opt .sw i { flex: 1; }
 .pal-opt .nm { font-weight: 700; font-size: 12px; letter-spacing: -.01em; line-height: 1.25; }
 
+/* ===== 반응형: 중간 크기에서도 찌그러지지 않게 ===== */
+@media (max-width: 1280px) {
+  .nav__tools { gap: 4px; }
+  .ntool { height: 38px; }
+  .palette-btn { width: 40px; }
+  .mode-btn { width: 38px; }
+}
+
+@media (max-width: 1000px) {
+  .nav__tools { gap: 4px; margin-right: 4px; }
+  .ntool { height: 36px; }
+}
+
+/* 900px 이하: 모바일 햄버거 전환 시 팔레트/모드 숨김 */
 @media (max-width: 900px) {
   .nav__tools { display: none; }
 }
